@@ -2,14 +2,11 @@ package dots
 
 import (
 	"encoding/base64"
-	"net/http"
-	"time"
 )
 
 // API
 type API struct {
-	cl    *http.Client
-	token string
+	cl *client
 }
 
 // New
@@ -18,9 +15,7 @@ func New(clientID, apiKey string, sandbox bool) *API {
 	b := []byte(clientID + ":" + apiKey)
 	t := base64.StdEncoding.EncodeToString(b)
 
-	cl := &http.Client{
-		Timeout: time.Second * 3,
-	}
+	cl := newClient(t)
 
-	return &API{cl: cl, token: t}
+	return &API{cl: cl}
 }

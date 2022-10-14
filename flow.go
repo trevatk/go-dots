@@ -1,13 +1,9 @@
 package dots
 
 import (
-	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
-	"time"
 )
 
 // InputCreateFlowParams
@@ -42,38 +38,15 @@ type FlowResponse struct {
 // CreateFlow
 func (api *API) CreateFlow(in *InputCreateFlowParams) (*Flow, error) {
 
-	b, err := json.Marshal(in)
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow json.Marshal err %v", err)
-	}
-
 	r := host + "/api/flow/create"
-	rq, err := http.NewRequest(http.MethodPost, r, bytes.NewReader(b))
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow http.NewRequest err %v", err)
-	}
-
-	rq.Header.Add(headerAuthorization, headerBasic+api.token)
-	rq.Header.Add(headerContentType, headerAppJSON)
-
-	rp, err := api.cl.Do(rq)
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow client.Do err %v", err)
-	}
-	defer rp.Body.Close()
-
-	bo, err := io.ReadAll(rp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow io.Readall err %v", err)
+	b, e := api.cl.Post(r, in)
+	if e != nil {
+		return nil, e
 	}
 
 	var fr FlowResponse
-	if err := json.Unmarshal(bo, &fr); err != nil {
+	if err := json.Unmarshal(b, &fr); err != nil {
 		return nil, fmt.Errorf("dots api create flow json.Unmarshal err %v", err)
-	}
-
-	if fr.Success == false {
-
 	}
 
 	return fr.Flow, nil
@@ -82,36 +55,14 @@ func (api *API) CreateFlow(in *InputCreateFlowParams) (*Flow, error) {
 // CreateFlowWithContext
 func (api *API) CreateFlowWithContext(ctx context.Context, in *InputCreateFlowParams) (*Flow, error) {
 
-	b, err := json.Marshal(in)
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow json.Marshal err %v", err)
-	}
-
-	to, ca := context.WithTimeout(ctx, time.Second*3)
-	defer ca()
-
 	r := host + "/api/flow/create"
-	rq, err := http.NewRequestWithContext(to, http.MethodPost, r, bytes.NewReader(b))
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow http.NewRequest err %v", err)
-	}
-
-	rq.Header.Add(headerAuthorization, headerBasic+api.token)
-	rq.Header.Add(headerContentType, headerAppJSON)
-
-	rp, err := api.cl.Do(rq)
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow client.Do err %v", err)
-	}
-	defer rp.Body.Close()
-
-	bo, err := io.ReadAll(rp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow io.Readall err %v", err)
+	b, e := api.cl.PostWithContext(ctx, r, in)
+	if e != nil {
+		return nil, e
 	}
 
 	var fr FlowResponse
-	if err := json.Unmarshal(bo, &fr); err != nil {
+	if err := json.Unmarshal(b, &fr); err != nil {
 		return nil, fmt.Errorf("dots api create flow json.Unmarshal err %v", err)
 	}
 
@@ -122,27 +73,13 @@ func (api *API) CreateFlowWithContext(ctx context.Context, in *InputCreateFlowPa
 func (api *API) GetFlowByID(in *InputGetFlowParams) (*Flow, error) {
 
 	r := host + "/api/flow/get/" + in.FlowID
-	rq, err := http.NewRequest(http.MethodGet, r, nil)
-	if err != nil {
-		return nil, fmt.Errorf("dots api GetFlowByID http.NewRequest err %v", err)
-	}
-
-	rq.Header.Add(headerAuthorization, headerBasic+api.token)
-	rq.Header.Add(headerContentType, headerAppJSON)
-
-	rp, err := api.cl.Do(rq)
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow client.Do err %v", err)
-	}
-	defer rp.Body.Close()
-
-	bo, err := io.ReadAll(rp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow io.Readall err %v", err)
+	b, e := api.cl.Get(r)
+	if e != nil {
+		return nil, e
 	}
 
 	var fr FlowResponse
-	if err := json.Unmarshal(bo, &fr); err != nil {
+	if err := json.Unmarshal(b, &fr); err != nil {
 		return nil, fmt.Errorf("dots api create flow json.Unmarshal err %v", err)
 	}
 
@@ -152,31 +89,14 @@ func (api *API) GetFlowByID(in *InputGetFlowParams) (*Flow, error) {
 // GetFlowByIDWithContext
 func (api *API) GetFlowByIdWithContext(ctx context.Context, in *InputGetFlowParams) (*Flow, error) {
 
-	to, ca := context.WithTimeout(ctx, time.Second*3)
-	defer ca()
-
 	r := host + "/api/flow/get/" + in.FlowID
-	rq, err := http.NewRequestWithContext(to, http.MethodGet, r, nil)
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow http.NewRequest err %v", err)
-	}
-
-	rq.Header.Add(headerAuthorization, headerBasic+api.token)
-	rq.Header.Add(headerContentType, headerAppJSON)
-
-	rp, err := api.cl.Do(rq)
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow client.Do err %v", err)
-	}
-	defer rp.Body.Close()
-
-	bo, err := io.ReadAll(rp.Body)
-	if err != nil {
-		return nil, fmt.Errorf("dots api create flow io.Readall err %v", err)
+	b, e := api.cl.GetWithContext(ctx, r)
+	if e != nil {
+		return nil, e
 	}
 
 	var fr FlowResponse
-	if err := json.Unmarshal(bo, &fr); err != nil {
+	if err := json.Unmarshal(b, &fr); err != nil {
 		return nil, fmt.Errorf("dots api create flow json.Unmarshal err %v", err)
 	}
 

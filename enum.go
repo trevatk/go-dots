@@ -3,6 +3,9 @@ package dots
 type EntityTypeEnum string
 type CountryEnum string
 type StateEnum string
+type InvoiceStatusEnum string
+type PayoutMethodEnum string
+type ACHAccountTypeEnum string
 
 const (
 	Individual EntityTypeEnum = "individual"
@@ -65,4 +68,16 @@ const (
 	ID         StateEnum = "ID"
 	IL         StateEnum = "IL"
 	IN         StateEnum = "IN"
+
+	Created   InvoiceStatusEnum = "created"
+	Completed InvoiceStatusEnum = "completed"
+	Expired   InvoiceStatusEnum = "expired"
+
+	Paypal  PayoutMethodEnum = "paypal"
+	Venmo   PayoutMethodEnum = "venmo"
+	ACH     PayoutMethodEnum = "ach"
+	CashApp PayoutMethodEnum = "cash_app"
+
+	Checking ACHAccountTypeEnum = "checking"
+	Savings  ACHAccountTypeEnum = "savings"
 )
