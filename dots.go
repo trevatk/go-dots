@@ -4,13 +4,13 @@ import (
 	"encoding/base64"
 )
 
-// API
+// API dots api manager
 type API struct {
 	cl *client
 	h  string
 }
 
-// New
+// New dots api manager instance
 func New(clientID, apiKey string, debug bool) *API {
 
 	var host string
