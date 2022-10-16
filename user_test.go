@@ -12,12 +12,12 @@ func TestCreateUser(t *testing.T) {
 	api := New(clientID, apiKey, true)
 
 	p := &InputCreateUserParams{
-		Email:       "joshua.forgy@gmail.com",
-		FirstName:   "joshua",
-		LastName:    "forgy",
-		CountryCode: "1",
-		PhoneNumber: "6268262883",
-		Username:    "jforgy",
+		Email:       "",
+		FirstName:   "",
+		LastName:    "",
+		CountryCode: "",
+		PhoneNumber: "",
+		Username:    "",
 	}
 
 	u, e := api.CreateUser(context.TODO(), p)
@@ -34,7 +34,7 @@ func TestSendUserVerificationToken(t *testing.T) {
 	api := New(clientID, apiKey, true)
 
 	p := &InputSendVerificationTokenParams{
-		VerificationID: "44b0f285-1399-4007-9cb9-75e5b614dfee",
+		VerificationID: "",
 	}
 
 	r, e := api.SendVerificationToken(context.TODO(), p)
@@ -51,8 +51,8 @@ func TestVerifyUserToken(t *testing.T) {
 	api := New(clientID, apiKey, true)
 
 	p := &InputVerifyUserTokenParams{
-		VerificationID:    "44b0f285-1399-4007-9cb9-75e5b614dfee",
-		VerificationToken: "226096",
+		VerificationID:    "",
+		VerificationToken: "",
 	}
 
 	r, e := api.VerifyUserToken(context.TODO(), p)
@@ -71,10 +71,10 @@ func TestCreateUserPayout(t *testing.T) {
 	api := New(clientID, apiKey, true)
 
 	p := &InputProgramaticalPayoutParams{
-		UserID:         "f259a622-0929-4ce8-bb88-e28f38b2b2d6",
-		PayoutMethod:   "venmo",
-		PayoutID:       "@Joshua-Forgy",
-		ACHAccountType: "checking",
+		UserID:         "",
+		PayoutMethod:   "",
+		PayoutID:       "",
+		ACHAccountType: "",
 		SetDefault:     true,
 	}
 
