@@ -74,27 +74,10 @@ type GetInvoiceResponse struct {
 }
 
 // CreateInvoice
-func (api *API) CreateInvoice(in *InputCreateInvoiceParams) (*CreateInvoiceResponse, error) {
+func (api *API) CreateInvoice(ctx context.Context, in *InputCreateInvoiceParams) (*CreateInvoiceResponse, error) {
 
-	r := host + "/api/invoice/create"
-	b, e := api.cl.Post(r, in)
-	if e != nil {
-		return nil, e
-	}
-
-	var cir CreateInvoiceResponse
-	if e := json.Unmarshal(b, &cir); e != nil {
-		return nil, fmt.Errorf("dots api create invoice json.Unmarshal err %v", e)
-	}
-
-	return &cir, nil
-}
-
-// CreateInvoiceWithContext
-func (api *API) CreateInvoiceWithContext(ctx context.Context, in *InputCreateInvoiceParams) (*CreateInvoiceResponse, error) {
-
-	r := host + "/api/invoice/create"
-	b, e := api.cl.PostWithContext(ctx, r, in)
+	r := api.h + "/api/invoice/create"
+	b, e := api.cl.post(ctx, r, in)
 	if e != nil {
 		return nil, e
 	}
@@ -108,27 +91,10 @@ func (api *API) CreateInvoiceWithContext(ctx context.Context, in *InputCreateInv
 }
 
 // GetInvoiceByID
-func (api *API) GetInvoiceByID(ID string) (*GetInvoiceResponse, error) {
+func (api *API) GetInvoiceByID(ctx context.Context, ID string) (*GetInvoiceResponse, error) {
 
-	r := host + "/api/invoice/get/" + ID
-	b, e := api.cl.Get(r)
-	if e != nil {
-		return nil, e
-	}
-
-	var i GetInvoiceResponse
-	if e := json.Unmarshal(b, &i); e != nil {
-		return nil, fmt.Errorf("dots create get invoice by id json.Unmarshal err %v", e)
-	}
-
-	return &i, nil
-}
-
-// GetInvoiceByIDWithContext
-func (api *API) GetInvoiceByIDWithContext(ctx context.Context, ID string) (*GetInvoiceResponse, error) {
-
-	r := host + "/api/invoice/get/" + ID
-	b, e := api.cl.GetWithContext(ctx, r)
+	r := api.h + "/api/invoice/get/" + ID
+	b, e := api.cl.get(ctx, r)
 	if e != nil {
 		return nil, e
 	}

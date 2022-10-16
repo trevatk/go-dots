@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-// InputCreatePayoutParams
+// InputCreatePayoutParams create new payout input
 type InputCreatePayoutParams struct {
 	UserID        string `json:"user_id"`
 	Amount        int    `json:"amount"`
@@ -16,7 +16,7 @@ type InputCreatePayoutParams struct {
 	Fund          bool   `json:"fund"`
 }
 
-// InputCreatePayoutLinkParams
+// InputCreatePayoutLinkParams create payout link input
 type InputCreatePayoutLinkParams struct {
 	Delivery  Delivery `json:"delivery"`
 	Amount    int      `json:"amount"`
@@ -25,23 +25,33 @@ type InputCreatePayoutLinkParams struct {
 	Payee     *Payee   `json:"payee,omitempty"`
 }
 
-// CreatePayoutResponse
+// InputSendPayoutParams send payout input
+type InputSendPayoutParams struct {
+	Amount                            int       `json:"amount"`
+	UserID                            string    `json:"user_id"`
+	Payee                             *Payee    `json:"payee"`
+	Delivery                          *Delivery `json:"delivery"`
+	Notes                             string    `json:"notes"`                                // custom data that will be attached to the transaction when the recipient claims the link
+	ForceCollectComplianceInformation bool      `json:"force_collect_compliance_information"` // Require the recipient to fill out compliance information (i.e. form 1099) when below the payout limit.
+}
+
+// CreatePayoutResponse create payout response
 type CreatePayoutResponse struct {
 	Success   bool `json:"success"`
 	ErrorCode int  `json:"error_code"`
 }
 
-// CreatePayoutLinkResponse
+// CreatePayoutLinkResponse create payout link response
 type CreatePayoutLinkResponse struct {
 	Success    bool        `json:"success"`
 	PayoutLink *PayoutLink `json:"payout_link"`
 }
 
-// CreatePayout
-func (api *API) CreatePayout(in *InputCreatePayoutParams) (*CreatePayoutResponse, error) {
+// CreatePayout create new payout
+func (api *API) CreatePayout(ctx context.Context, in *InputCreatePayoutParams) (*CreatePayoutResponse, error) {
 
-	r := host + "/api/payouts/create"
-	b, e := api.cl.Post(r, in)
+	r := api.h + "/api/payouts/create"
+	b, e := api.cl.post(ctx, r, in)
 	if e != nil {
 		return nil, e
 	}
@@ -54,28 +64,11 @@ func (api *API) CreatePayout(in *InputCreatePayoutParams) (*CreatePayoutResponse
 	return &pr, nil
 }
 
-// CreatePayoutWithContext
-func (api *API) CreatePayoutWithContext(ctx context.Context, in *InputCreatePayoutParams) (*CreatePayoutResponse, error) {
+// CreatePayoutLink create new payout link
+func (api *API) CreatePayoutLink(ctx context.Context, in *InputCreatePayoutLinkParams) (*CreatePayoutLinkResponse, error) {
 
-	r := host + "/api/payouts/create"
-	b, e := api.cl.PostWithContext(ctx, r, in)
-	if e != nil {
-		return nil, e
-	}
-
-	var pr CreatePayoutResponse
-	if e := json.Unmarshal(b, &pr); e != nil {
-		return nil, fmt.Errorf("dots api create payout json.Unmarshal err %v", e)
-	}
-
-	return &pr, nil
-}
-
-// CreatePayoutLink
-func (api *API) CreatePayoutLink(in *InputCreatePayoutLinkParams) (*CreatePayoutLinkResponse, error) {
-
-	r := host + "/api/payouts/create_payout_link"
-	b, e := api.cl.Post(r, in)
+	r := api.h + "/api/payouts/create_payout_link"
+	b, e := api.cl.post(ctx, r, in)
 	if e != nil {
 		return nil, e
 	}
@@ -88,19 +81,16 @@ func (api *API) CreatePayoutLink(in *InputCreatePayoutLinkParams) (*CreatePayout
 	return &pl, nil
 }
 
-// CreatePayoutLinkWithContext
-func (api *API) CreatePayoutLinkWithContext(ctx context.Context, in *InputCreatePayoutLinkParams) (*CreatePayoutLinkResponse, error) {
+// SendPayout
+func (api *API) SendPayout(ctx context.Context, in *InputSendPayoutParams) ([]byte, error) {
 
-	r := host + "/api/payouts/create_payout_link"
-	b, e := api.cl.PostWithContext(ctx, r, in)
+	r := api.h + "/api/v2/payouts/send_payout"
+	bo, e := api.cl.post(ctx, r, in)
 	if e != nil {
-		return nil, e
+		return []byte{}, e
 	}
 
-	var pl CreatePayoutLinkResponse
-	if e := json.Unmarshal(b, &pl); e != nil {
-		return nil, fmt.Errorf("dots api create payout link json.Unmarshal err %v", e)
-	}
-
-	return &pl, nil
+	return bo, nil
 }
+
+// CreateDirectPayout

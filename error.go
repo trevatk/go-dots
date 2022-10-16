@@ -25,11 +25,13 @@ func (ue *ErrUsernameExists) Error() string {
 }
 
 // ErrInvalidInput
-type ErrInvalidInput struct{}
+type ErrInvalidInput struct {
+	Field string
+}
 
 // ErrInvalidInput
 func (ii *ErrInvalidInput) Error() string {
-	return fmt.Sprintf("dots api invalid input")
+	return fmt.Sprintf("dots api invalid input field %s", ii.Field)
 }
 
 // ErrInvalidSSN

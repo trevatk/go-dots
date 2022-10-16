@@ -1,7 +1,8 @@
 package dots
 
 const (
-	host = "https://pls.senddotssandbox.com"
+	sandbox    = "https://pls.senddotssandbox.com"
+	production = "https://api.senddots.com"
 
 	headerAuthorization = "Authorization"
 	headerBasic         = "Basic "

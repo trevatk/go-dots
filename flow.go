@@ -35,28 +35,11 @@ type FlowResponse struct {
 	Flow    *Flow `json:"flow"`
 }
 
-// CreateFlow
-func (api *API) CreateFlow(in *InputCreateFlowParams) (*Flow, error) {
-
-	r := host + "/api/flow/create"
-	b, e := api.cl.Post(r, in)
-	if e != nil {
-		return nil, e
-	}
-
-	var fr FlowResponse
-	if err := json.Unmarshal(b, &fr); err != nil {
-		return nil, fmt.Errorf("dots api create flow json.Unmarshal err %v", err)
-	}
-
-	return fr.Flow, nil
-}
-
 // CreateFlowWithContext
 func (api *API) CreateFlowWithContext(ctx context.Context, in *InputCreateFlowParams) (*Flow, error) {
 
-	r := host + "/api/flow/create"
-	b, e := api.cl.PostWithContext(ctx, r, in)
+	r := api.h + "/api/flow/create"
+	b, e := api.cl.post(ctx, r, in)
 	if e != nil {
 		return nil, e
 	}
@@ -70,27 +53,10 @@ func (api *API) CreateFlowWithContext(ctx context.Context, in *InputCreateFlowPa
 }
 
 // GetFlowByID
-func (api *API) GetFlowByID(in *InputGetFlowParams) (*Flow, error) {
+func (api *API) GetFlowByID(ctx context.Context, in *InputGetFlowParams) (*Flow, error) {
 
-	r := host + "/api/flow/get/" + in.FlowID
-	b, e := api.cl.Get(r)
-	if e != nil {
-		return nil, e
-	}
-
-	var fr FlowResponse
-	if err := json.Unmarshal(b, &fr); err != nil {
-		return nil, fmt.Errorf("dots api create flow json.Unmarshal err %v", err)
-	}
-
-	return fr.Flow, nil
-}
-
-// GetFlowByIDWithContext
-func (api *API) GetFlowByIdWithContext(ctx context.Context, in *InputGetFlowParams) (*Flow, error) {
-
-	r := host + "/api/flow/get/" + in.FlowID
-	b, e := api.cl.GetWithContext(ctx, r)
+	r := api.h + "/api/flow/get/" + in.FlowID
+	b, e := api.cl.get(ctx, r)
 	if e != nil {
 		return nil, e
 	}

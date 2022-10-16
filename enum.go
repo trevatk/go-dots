@@ -6,6 +6,7 @@ type StateEnum string
 type InvoiceStatusEnum string
 type PayoutMethodEnum string
 type ACHAccountTypeEnum string
+type TransactionTypeEnum string
 
 const (
 	Individual EntityTypeEnum = "individual"
@@ -80,4 +81,7 @@ const (
 
 	Checking ACHAccountTypeEnum = "checking"
 	Savings  ACHAccountTypeEnum = "savings"
+
+	Credit     TransactionTypeEnum = "credit"
+	WalletEnum TransactionTypeEnum = "wallet"
 )

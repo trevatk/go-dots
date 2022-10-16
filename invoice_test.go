@@ -1,6 +1,7 @@
 package dots
 
 import (
+	"context"
 	"fmt"
 	"testing"
 )
@@ -14,7 +15,7 @@ func TestCreateInvoice(t *testing.T) {
 		ExpiresIn: 3600,
 	}
 
-	r, e := api.CreateInvoice(p)
+	r, e := api.CreateInvoice(context.TODO(), p)
 	if e != nil {
 		t.Log(e)
 		t.FailNow()
@@ -23,5 +24,3 @@ func TestCreateInvoice(t *testing.T) {
 	fmt.Printf("successfully created invoice %s", r.Invoice.ID)
 
 }
-
-func TestCreateInvoiceWithContext(t *testing.T) {}

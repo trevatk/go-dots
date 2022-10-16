@@ -41,6 +41,89 @@ type PayoutMethods struct {
 	Venmo      string
 }
 
+// Plaid
+type Plaid struct {
+	Balances     *PlaidBalances       `json:"balances"`
+	Transactions []*PlaidTransactions `json:"transactions"`
+}
+
+// PlaidBalances
+type PlaidBalances struct {
+	Available              int    `json:"available"`
+	Current                int    `json:"current"`
+	Limit                  int    `json:"limit"`
+	ISOCurrencyCode        string `json:"iso_currency_code"`
+	UnofficialCurrencyCode string `json:"unofficial_currency_code"`
+}
+
+// PlaidPaymentMeta
+type PlaidPaymentMeta struct {
+	ByOrderOf        string `json:"by_order_of"`
+	Payee            string `json:"payee"`
+	Payer            string `json:"payer"`
+	PaymentMethod    string `json:"payment_method"`
+	PaymentProcessor string `json:"payment_processor"`
+	PPDID            string `json:"ppd_id"`
+	Reason           string `json:"reason"`
+	ReferenceNumber  string `json:"reference_number"`
+}
+
+// PlaidLocation
+type PlaidLocation struct {
+	Address   string `json:"address"`
+	City      string `json:"city"`
+	State     string `json:"state"`
+	Zip       string `json:"zip"`
+	Latitude  string `json:"lat"`
+	Longitude string `json:"lon"`
+}
+
+// PlaidTransactions
+type PlaidTransactions struct {
+	AccountID              string            `json:"account_id"`
+	Amount                 int               `json:"amount"`
+	ISOCurrencyCode        string            `json:"iso_currency_code"`
+	UnofficialCurrencyCode string            `json:"unofficial_currency_code"`
+	Category               []string          `json:"category"`
+	CategoryID             string            `json:"category_id"`
+	Date                   string            `json:"date"`
+	DateTime               string            `json:"datetime"`
+	Location               *PlaidLocation    `json:"location"`
+	Name                   string            `json:"name"`
+	PaymentMeta            *PlaidPaymentMeta `json:"payment_meta"`
+	Pending                bool              `json:"pending"`
+	PendingTransactionID   string            `json:"pending_transaction_id"`
+	TransactionID          string            `json:"transaction_id"`
+}
+
+// Receipt
+type Receipt struct {
+	Items     []*Item    `json:"items"`
+	Breakdown *Breakdown `json:"breakdown"`
+}
+
+// Transaction
+type Transaction struct {
+	ID                  int                 `json:"id"`
+	Date                string              `json:"date"`
+	SourceUsername      string              `json:"source_username"`
+	DestinationUsername string              `json:"destination_username"`
+	Amount              int                 `json:"amount"`
+	Type                TransactionTypeEnum `json:"type"`
+	Completed           bool                `json:"completed"`
+	Notes               interface{}         `json:"notes"`
+	Receipt             *Receipt            `json:"receipt"`
+	CreditTransactionID string              `json:"credit_transaction_id"`
+}
+
+// Transactions
+type Transactions struct {
+	UserID  string      `json:"user_id"`
+	Amount  int         `json:"amount"`
+	Receipt *Receipt    `json:"receipt"`
+	Notes   interface{} `json:"notes"`
+}
+
 // UserLimited
 type UserLimited struct {
 	ID        string         `json:"id,omitempty"` // string or null
