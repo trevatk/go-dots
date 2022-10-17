@@ -19,6 +19,6 @@ jobs:
         go-version: 1.19
 
     - name: Test
-      run: export DOTS_CLIENT_ID=${DOTS_CLIENT_ID} && \
-            exports DOTS_API_KEY={DOTS_API_KEY} && \ 
+      run: export DOTS_CLIENT_ID=${DOTS_CLIENT_ID} &&
+            export DOTS_API_KEY={DOTS_API_KEY} && 
             go test -v ./...
