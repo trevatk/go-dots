@@ -1,4 +1,4 @@
-name: Go
+name: go
 
 on:
   push:
@@ -18,7 +18,10 @@ jobs:
       with:
         go-version: 1.19
 
-    - name: Test
-      run: export DOTS_CLIENT_ID=${DOTS_CLIENT_ID} &&
-            export DOTS_API_KEY=${DOTS_API_KEY} && 
-            go test -v ./...
+    - name: test
+      shell: bash
+      env:
+        CLIENT_ID: ${{ secrets.DOTS_CLIENT_ID }}
+        API_KEY: ${{ secrets.DOTS_API_KEY }}
+      run: |
+        export DOTS_CLIENT_ID="$CLIENT_ID" && export DOTS_API_KEY="$API_KEY" &&  go test -v ./...
