@@ -85,12 +85,14 @@ func (api *API) CreatePayoutLink(ctx context.Context, in *InputCreatePayoutLinkP
 func (api *API) SendPayout(ctx context.Context, in *InputSendPayoutParams) ([]byte, error) {
 
 	r := api.h + "/api/v2/payouts/send_payout"
-	bo, e := api.cl.post(ctx, r, in)
+	b, e := api.cl.post(ctx, r, in)
 	if e != nil {
 		return []byte{}, e
 	}
 
-	return bo, nil
+	return b, nil
 }
 
 // CreateDirectPayout
+// TODO:
+// add direct payout api call

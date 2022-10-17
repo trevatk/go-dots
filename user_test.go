@@ -64,9 +64,127 @@ func TestVerifyUserToken(t *testing.T) {
 	assert.Equal(t, true, r.Success)
 }
 
-func TestCreateUserPayout(t *testing.T) {
+func TestRetrieveAppUserIDs(t *testing.T) {
 
-	ctx := context.TODO()
+	api := New(clientID, apiKey, true)
+
+	r, e := api.RetrieveAppUserIDs(context.TODO())
+	if e != nil {
+		t.Log(e)
+		t.FailNow()
+	}
+
+	assert.Equal(t, true, r.Success)
+
+	for _, id := range r.Users {
+		t.Logf("retrieve app id %s", id)
+	}
+}
+
+func TestGetUserByID(t *testing.T) {
+
+	uID := "changeme"
+
+	api := New(clientID, apiKey, true)
+
+	p := &InputGetUserParams{
+		UserID: uID,
+	}
+
+	u, e := api.GetUserByID(context.TODO(), p)
+	if e != nil {
+		t.Log(e)
+		t.FailNow()
+	}
+
+	assert.Equal(t, uID, u.ID)
+}
+
+func TestAddUserKYC(t *testing.T) {
+
+	api := New(clientID, apiKey, true)
+
+	p := &InputAddUserKYCParams{}
+
+	r, e := api.AddUserKYC(context.TODO(), p)
+	if e != nil {
+		t.Log(e)
+		t.FailNow()
+	}
+
+	assert.Equal(t, true, r.Success)
+}
+
+func TestListUserBankAccounts(t *testing.T) {
+
+	api := New(clientID, apiKey, true)
+
+	r, e := api.ListUserBankAccounts(context.TODO(), "")
+	if e != nil {
+		t.Log(e)
+		t.FailNow()
+	}
+
+	assert.Equal(t, true, r.Success)
+}
+
+func TestGetUserWallet(t *testing.T) {
+
+	api := New(clientID, apiKey, true)
+
+	r, e := api.GetUserWallet(context.TODO(), "")
+	if e != nil {
+		t.Log(e)
+		t.FailNow()
+	}
+
+	assert.Equal(t, true, r.Success)
+}
+
+func TestGetLimitedUserByVerificationID(t *testing.T) {
+
+	api := New(clientID, apiKey, true)
+
+	r, e := api.GetLimitedUserByVerificationID(context.TODO(), "")
+	if e != nil {
+		t.Log(e)
+		t.FailNow()
+	}
+
+	assert.Equal(t, true, r.Success)
+}
+
+func TestGenerateRefillUserWalletLink(t *testing.T) {
+
+	api := New(clientID, apiKey, true)
+
+	p := &InputRefillWalletLinkParams{}
+
+	r, e := api.GenerateRefillUserWalletLink(context.TODO(), p)
+	if e != nil {
+		t.Log(e)
+		t.FailNow()
+	}
+
+	assert.Equal(t, true, r.Success)
+}
+
+func TestGeneratePayoutUserWalletLink(t *testing.T) {
+
+	api := New(clientID, apiKey, true)
+
+	p := &InputPayoutWalletLinkParams{}
+
+	r, e := api.GeneratePayoutUserWalletLink(context.TODO(), p)
+	if e != nil {
+		t.Log(e)
+		t.FailNow()
+	}
+
+	assert.Equal(t, true, r.Success)
+}
+
+func TestCreateUserPayout(t *testing.T) {
 
 	api := New(clientID, apiKey, true)
 
@@ -78,7 +196,7 @@ func TestCreateUserPayout(t *testing.T) {
 		SetDefault:     true,
 	}
 
-	po, e := api.CreateUserPayout(ctx, p)
+	po, e := api.CreateUserPayout(context.TODO(), p)
 	if e != nil {
 		t.Log(e)
 		t.FailNow()

@@ -38,3 +38,18 @@ func TestCreatePayoutLink(t *testing.T) {
 
 	t.Logf("successfully created payout link %s", pl.PayoutLink.Link)
 }
+
+func TestSendPayout(t *testing.T) {
+
+	api := New(clientID, apiKey, true)
+
+	p := &InputSendPayoutParams{}
+
+	r, e := api.SendPayout(context.TODO(), p)
+	if e != nil {
+		t.Log(e)
+		t.FailNow()
+	}
+
+	t.Logf("html response %s", string(r))
+}

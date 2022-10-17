@@ -143,6 +143,12 @@ type ProgramaticalPayoutResponse struct {
 	ACHAccountID string `json:"ach_account_id"`
 }
 
+// RetrieveAppUserIDsResponse
+type RetrieveAppUserIDsResponse struct {
+	Success bool     `json:"success"`
+	Users   []string `json:"users"`
+}
+
 // CreateUser create/connect a new user
 func (api *API) CreateUser(ctx context.Context, in *InputCreateUserParams) (*CreateUserResponse, error) {
 
@@ -195,7 +201,7 @@ func (api *API) VerifyUserToken(ctx context.Context, in *InputVerifyUserTokenPar
 }
 
 // RetrieveAppUserIDs retrieve and filter connected app user IDs
-func (api *API) RetrieveAppUserIDs(ctx context.Context) ([]string, error) {
+func (api *API) RetrieveAppUserIDs(ctx context.Context) (*RetrieveAppUserIDsResponse, error) {
 
 	r := api.h + "/api/users/get"
 	b, e := api.cl.get(ctx, r)
@@ -203,12 +209,12 @@ func (api *API) RetrieveAppUserIDs(ctx context.Context) ([]string, error) {
 		return nil, e
 	}
 
-	var re []string
+	var re RetrieveAppUserIDsResponse
 	if e := json.Unmarshal(b, &re); e != nil {
-		return nil, fmt.Errorf("dots api retrieve app user ids json.Unmarshal err %v", e)
+		return nil, fmt.Errorf("dots api retrieve app user ids json.Unmarshal err %v html response %s", e, string(b))
 	}
 
-	return re, nil
+	return &re, nil
 }
 
 // GetUserByID get the user by their id
@@ -222,14 +228,14 @@ func (api *API) GetUserByID(ctx context.Context, in *InputGetUserParams) (*GetUs
 
 	var u GetUserByIDResponse
 	if e := json.Unmarshal(b, &u); e != nil {
-		return nil, fmt.Errorf("dots api get user by id json.Unmarshal err %v", e)
+		return nil, fmt.Errorf("dots api get user by id json.Unmarshal err %v html response %s", e, string(b))
 	}
 
 	return &u, nil
 }
 
-// AddUserKYCWithContext add KYC or KYB information for user
-func (api *API) AddUserKYCWithContext(ctx context.Context, in *InputAddUserKYCParams) (*AddUserKYCResponse, error) {
+// AddUserKYCW add KYC or KYB information for user
+func (api *API) AddUserKYC(ctx context.Context, in *InputAddUserKYCParams) (*AddUserKYCResponse, error) {
 
 	r := api.h + "/api/users/add_kyc_information"
 	b, e := api.cl.post(ctx, r, in)
