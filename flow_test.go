@@ -2,12 +2,16 @@ package dots
 
 import (
 	"context"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateFlowWithContext(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
@@ -25,6 +29,9 @@ func TestCreateFlowWithContext(t *testing.T) {
 }
 
 func TestGetFlowByID(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 

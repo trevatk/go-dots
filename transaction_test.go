@@ -2,12 +2,16 @@ package dots
 
 import (
 	"context"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateTransaction(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
@@ -24,6 +28,9 @@ func TestCreateTransaction(t *testing.T) {
 
 func TestCreateTransactionUnverifiedUser(t *testing.T) {
 
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
+
 	api := New(clientID, apiKey, true)
 
 	p := &InputCreateTransactionUnverifiedUserParams{}
@@ -38,6 +45,9 @@ func TestCreateTransactionUnverifiedUser(t *testing.T) {
 }
 
 func TestCreateTransactions(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
@@ -54,6 +64,9 @@ func TestCreateTransactions(t *testing.T) {
 
 func TestGetTransactionsBatchStatus(t *testing.T) {
 
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
+
 	api := New(clientID, apiKey, true)
 
 	r, e := api.GetTransactionsBatchStatus(context.TODO(), "")
@@ -66,6 +79,9 @@ func TestGetTransactionsBatchStatus(t *testing.T) {
 }
 
 func TestListUserTransactions(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
@@ -82,6 +98,9 @@ func TestListUserTransactions(t *testing.T) {
 
 func TestGetTransactionByID(t *testing.T) {
 
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
+
 	api := New(clientID, apiKey, true)
 
 	r, e := api.GetTransactionByID(context.TODO(), "")
@@ -94,6 +113,9 @@ func TestGetTransactionByID(t *testing.T) {
 }
 
 func TestCreditUser(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
@@ -110,6 +132,9 @@ func TestCreditUser(t *testing.T) {
 
 func TestRemoveCredit(t *testing.T) {
 
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
+
 	api := New(clientID, apiKey, true)
 
 	p := &InputRemoveCreditParams{}
@@ -124,6 +149,9 @@ func TestRemoveCredit(t *testing.T) {
 }
 
 func TestCreateACHPayment(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 

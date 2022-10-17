@@ -3,10 +3,14 @@ package dots
 import (
 	"context"
 	"fmt"
+	"os"
 	"testing"
 )
 
 func TestCreateInvoice(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 

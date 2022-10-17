@@ -2,12 +2,16 @@ package dots
 
 import (
 	"context"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCreateUser(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
@@ -31,6 +35,9 @@ func TestCreateUser(t *testing.T) {
 
 func TestSendUserVerificationToken(t *testing.T) {
 
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
+
 	api := New(clientID, apiKey, true)
 
 	p := &InputSendVerificationTokenParams{
@@ -47,6 +54,9 @@ func TestSendUserVerificationToken(t *testing.T) {
 }
 
 func TestVerifyUserToken(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
@@ -66,6 +76,9 @@ func TestVerifyUserToken(t *testing.T) {
 
 func TestRetrieveAppUserIDs(t *testing.T) {
 
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
+
 	api := New(clientID, apiKey, true)
 
 	r, e := api.RetrieveAppUserIDs(context.TODO())
@@ -82,6 +95,9 @@ func TestRetrieveAppUserIDs(t *testing.T) {
 }
 
 func TestGetUserByID(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	uID := "changeme"
 
@@ -102,6 +118,9 @@ func TestGetUserByID(t *testing.T) {
 
 func TestAddUserKYC(t *testing.T) {
 
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
+
 	api := New(clientID, apiKey, true)
 
 	p := &InputAddUserKYCParams{}
@@ -117,6 +136,9 @@ func TestAddUserKYC(t *testing.T) {
 
 func TestListUserBankAccounts(t *testing.T) {
 
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
+
 	api := New(clientID, apiKey, true)
 
 	r, e := api.ListUserBankAccounts(context.TODO(), "")
@@ -129,6 +151,9 @@ func TestListUserBankAccounts(t *testing.T) {
 }
 
 func TestGetUserWallet(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
@@ -143,6 +168,9 @@ func TestGetUserWallet(t *testing.T) {
 
 func TestGetLimitedUserByVerificationID(t *testing.T) {
 
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
+
 	api := New(clientID, apiKey, true)
 
 	r, e := api.GetLimitedUserByVerificationID(context.TODO(), "")
@@ -155,6 +183,9 @@ func TestGetLimitedUserByVerificationID(t *testing.T) {
 }
 
 func TestGenerateRefillUserWalletLink(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
@@ -171,6 +202,9 @@ func TestGenerateRefillUserWalletLink(t *testing.T) {
 
 func TestGeneratePayoutUserWalletLink(t *testing.T) {
 
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
+
 	api := New(clientID, apiKey, true)
 
 	p := &InputPayoutWalletLinkParams{}
@@ -185,6 +219,9 @@ func TestGeneratePayoutUserWalletLink(t *testing.T) {
 }
 
 func TestCreateUserPayout(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 

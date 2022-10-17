@@ -2,10 +2,14 @@ package dots
 
 import (
 	"context"
+	"os"
 	"testing"
 )
 
 func TestCreatePayout(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
@@ -21,6 +25,9 @@ func TestCreatePayout(t *testing.T) {
 }
 
 func TestCreatePayoutLink(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
@@ -40,6 +47,9 @@ func TestCreatePayoutLink(t *testing.T) {
 }
 
 func TestSendPayout(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
 
 	api := New(clientID, apiKey, true)
 
