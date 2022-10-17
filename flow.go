@@ -8,8 +8,8 @@ import (
 
 // InputCreateFlowParams
 type InputCreateFlowParams struct {
-	Steps  []string `json:"steps"`             // array of strings enum: 'compliance', 'manage-payements', 'manage-payouts', 'payout'
-	UserID *string  `json:"user_id,omitempty"` // string <uuid>
+	Steps  []string `json:"steps"`   // array of strings enum: 'compliance', 'manage-payements', 'manage-payouts', 'payout'
+	UserID string   `json:"user_id"` // string <uuid>
 }
 
 // InputGetFlowParams
@@ -35,8 +35,8 @@ type FlowResponse struct {
 	Flow    *Flow `json:"flow"`
 }
 
-// CreateFlowWithContext
-func (api *API) CreateFlowWithContext(ctx context.Context, in *InputCreateFlowParams) (*Flow, error) {
+// CreateFlow
+func (api *API) CreateFlow(ctx context.Context, in *InputCreateFlowParams) (*Flow, error) {
 
 	r := api.h + "/api/flow/create"
 	b, e := api.cl.post(ctx, r, in)

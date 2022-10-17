@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateFlowWithContext(t *testing.T) {
+func TestCreateFlow(t *testing.T) {
 
 	clientID := os.Getenv("DOTS_CLIENT_ID")
 	apiKey := os.Getenv("DOTS_API_KEY")
@@ -16,10 +16,11 @@ func TestCreateFlowWithContext(t *testing.T) {
 	api := New(clientID, apiKey, true)
 
 	p := &InputCreateFlowParams{
-		Steps: []string{"compliance"},
+		UserID: "5cf4c533-93f3-485c-b9d1-31bd59954e78",
+		Steps:  []string{"compliance"},
 	}
 
-	f, e := api.CreateFlowWithContext(context.TODO(), p)
+	f, e := api.CreateFlow(context.TODO(), p)
 	if e != nil {
 		t.Log(e)
 		t.FailNow()
