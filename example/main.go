@@ -1,14 +1,12 @@
-# Go-Dots
+package main
 
-## Installation
+import (
+	"context"
+	"fmt"
+	"log"
 
-```bash
-$ go get github.com/trevatk/go-dots
-```
-
-## Simple Workflow
-
-```golang
+	"github.com/trevatk/go-dots"
+)
 
 func main() {
 
@@ -67,5 +65,3 @@ func main() {
 	// YAY!
 	fmt.Printf("successfully verified user %s", vur.User.ID)
 }
-
-```
