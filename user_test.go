@@ -225,7 +225,7 @@ func TestCreateUserPayout(t *testing.T) {
 
 	api := New(clientID, apiKey, true)
 
-	p := &InputProgramaticalPayoutParams{
+	p := &InputCreateUserPayoutParams{
 		UserID:         "",
 		PayoutMethod:   "",
 		PayoutID:       "",

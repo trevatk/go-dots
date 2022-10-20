@@ -48,6 +48,9 @@ func TestCreatePayoutLink(t *testing.T) {
 
 func TestSendPayout(t *testing.T) {
 
+	// TODO:
+	// finish response model
+
 	clientID := os.Getenv("DOTS_CLIENT_ID")
 	apiKey := os.Getenv("DOTS_API_KEY")
 
@@ -62,4 +65,22 @@ func TestSendPayout(t *testing.T) {
 	}
 
 	t.Logf("html response %s", string(r))
+}
+
+func TestCreateDirectPayout(t *testing.T) {
+
+	clientID := os.Getenv("DOTS_CLIENT_ID")
+	apiKey := os.Getenv("DOTS_API_KEY")
+
+	api := New(clientID, apiKey, true)
+
+	p := &InputDirectPayoutParams{}
+
+	r, e := api.CreateDirectPayout(context.TODO(), p)
+	if e != nil {
+		t.Log(e)
+		t.FailNow()
+	}
+
+	t.Log("payout created ", r.Success)
 }

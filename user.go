@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-// InputCreateUserParams
+// InputCreateUserParams create user input paramets
 type InputCreateUserParams struct {
 	Email       string `json:"email"`              // string <email"
 	CountryCode string `json:"country_code"`       // string^[0-9]{1,3}$
@@ -16,50 +16,50 @@ type InputCreateUserParams struct {
 	Username    string `json:"username,omitempty"` // string [1..50]
 }
 
-// InputSendVerificationTokenParams
+// InputSendVerificationTokenParams send user verification token input parameters
 type InputSendVerificationTokenParams struct {
 	VerificationID string `json:"verification_id"` // string <uuid>
 }
 
-// InputVerifyUserTokenParams
+// InputVerifyUserTokenParams verify user token input parameters
 type InputVerifyUserTokenParams struct {
 	VerificationID    string `json:"verification_id"`    // string <uuid>
 	VerificationToken string `json:"verification_token"` // string^[0-9]{6,8}$
 }
 
-// InputGetUserParams
+// InputGetUserParams get user input parameters
 type InputGetUserParams struct {
 	UserID string `json:"user_id"` // string <uuid>
 }
 
-// InputAddUserKYCParams
+// InputAddUserKYCParams add user KYC input parameters
 type InputAddUserKYCParams struct {
 	UserID       string         `json:"user_id"`                 // string <uuid>
 	EntityType   EntityTypeEnum `json:"entity_type"`             // string enum 'individual', 'business'
 	BusinessName string         `json:"business_name,omitempty"` // string required if entity_type = business
 	PostCode     string         `json:"post_code"`               // string
 	City         string         `json:"city"`                    // string
-	Country      CountryEnum    `json:"country"`                 // string enum
-	State        StateEnum      `json:"state"`                   // string enum
+	Country      CountryEnum    `json:"country"`                 // enum
+	State        StateEnum      `json:"state"`                   // enum
 	Line1        string         `json:"line1"`                   // string
 	Line2        string         `json:"line2,omitempty"`         // string
 	SSN          string         `json:"ssn,omitempty"`           // string required if entity_type = individual
 	EIN          string         `json:"ein,omitempty"`           // string required if entity_type = business
 }
 
-// InputRefillWalletLinkParams
+// InputRefillWalletLinkParams refill wallet link input parameters
 type InputRefillWalletLinkParams struct {
 	UserID string `json:"user_id"`
 }
 
-// InputPayoutWalletLinkParams
+// InputPayoutWalletLinkParams payout wallet link parameters
 type InputPayoutWalletLinkParams struct {
 	UserID         string `json:"user_id"`
 	VerificationID string `json:"verification_id,omitempty"` // optional
 }
 
-// InputProgramaticalPayoutParams
-type InputProgramaticalPayoutParams struct {
+// InputCreateUserPayoutParams programatic payout input parameters
+type InputCreateUserPayoutParams struct {
 	UserID           string `json:"user_id"`
 	PayoutMethod     string `json:"payout_method"`
 	PayoutID         string `json:"payout_id"`
@@ -69,26 +69,26 @@ type InputProgramaticalPayoutParams struct {
 	SetDefault       bool   `json:"set_default"`
 }
 
-// CreateUserResponse
+// CreateUserResponse create user response object
 type CreateUserResponse struct {
 	Success        bool   `json:"success"`         // boolean
 	Action         string `json:"action"`          // string
 	VerificationID string `json:"verification_id"` // string <uuid>
 }
 
-// SendVerificationResponse
+// SendVerificationResponse send verification response object
 type SendVerificationResponse struct {
 	Success bool `json:"success"`
 }
 
-// VerifyUserTokenResponse
+// VerifyUserTokenResponse verify user token response object
 type VerifyUserTokenResponse struct {
 	Success bool        `json:"success"`        // boolean
 	User    *VerifyUser `json:"user,omitempty"` // object
 	Message string      `json:"mesage"`         // string the error message if there is one
 }
 
-// GetUserByIDResponse
+// GetUserByIDResponse get user by id response object
 type GetUserByIDResponse struct {
 	ID            string         `json:"id"`                       // string <uuid>
 	Email         string         `json:"email"`                    // string <email>
@@ -100,50 +100,50 @@ type GetUserByIDResponse struct {
 	Wallet        *Wallet        `json:"wallet,omitempty"`         // wallet
 }
 
-// AddUserKYCResponse
+// AddUserKYCResponse add user KYC response object
 type AddUserKYCResponse struct {
 	Success bool   `json:"success"` // boolean
 	Message string `json:"message"`
 }
 
-// ListUserBankAccountResponse
+// ListUserBankAccountResponse list user bank accounts response object
 type ListUserBankAccountResponse struct {
 	Success  bool       `json:"success"`
 	Accounts []*Account `json:"accounts"`
 }
 
-// GetUserWalletResponse
+// GetUserWalletResponse get user wallet response object
 type GetUserWalletResponse struct {
 	Success bool    `json:"success"`
 	Wallet  *Wallet `json:"Wallet"`
 }
 
-// GetLimitedUserResponse
+// GetLimitedUserResponse get limited user information response object
 type GetLimitedUserResponse struct {
 	Success   bool         `json:"success"`
 	Connected bool         `json:"connected"`
 	User      *UserLimited `json:"user"`
 }
 
-// RefillWalletLinkResponse
+// RefillWalletLinkResponse refill wallet link response object
 type RefillWalletLinkResponse struct {
 	Success bool   `json:"success"`
 	Link    string `json:"link"`
 }
 
-// PayoutWalletLinkResponse
+// PayoutWalletLinkResponse payout wallet link response object
 type PayoutWalletLinkResponse struct {
 	Success bool   `json:"success"`
 	Link    string `json:"link"`
 }
 
-// ProgramaticalPayoutResponse
-type ProgramaticalPayoutResponse struct {
+// CreateUserPayoutResponse programatical payout response object
+type CreateUserPayoutResponse struct {
 	Success      bool   `json:"success"`
 	ACHAccountID string `json:"ach_account_id"`
 }
 
-// RetrieveAppUserIDsResponse
+// RetrieveAppUserIDsResponse retrieve application user IDs response object
 type RetrieveAppUserIDsResponse struct {
 	Success bool     `json:"success"`
 	Users   []string `json:"users"`
@@ -338,11 +338,8 @@ func (api *API) GeneratePayoutUserWalletLink(ctx context.Context, in *InputPayou
 	return &wl, nil
 }
 
-/*
-CreateUserPayout programatically add a payout method for a user
-* endpoint /api/users/wallet/add_payout_method
-*/
-func (api *API) CreateUserPayout(ctx context.Context, in *InputProgramaticalPayoutParams) (*ProgramaticalPayoutResponse, error) {
+// CreateUserPayout programatically add a payout method for a user
+func (api *API) CreateUserPayout(ctx context.Context, in *InputCreateUserPayoutParams) (*CreateUserPayoutResponse, error) {
 
 	r := api.h + "/api/users/wallet/add_payout_method"
 	b, e := api.cl.post(ctx, r, in)
@@ -352,7 +349,7 @@ func (api *API) CreateUserPayout(ctx context.Context, in *InputProgramaticalPayo
 
 	fmt.Println("html response ", string(b))
 
-	var p ProgramaticalPayoutResponse
+	var p CreateUserPayoutResponse
 	if e := json.Unmarshal(b, &p); e != nil {
 		return nil, fmt.Errorf("dots api create user payout json.Unmarshal err %v html response %s", e, string(b))
 	}

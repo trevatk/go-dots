@@ -35,6 +35,13 @@ type InputSendPayoutParams struct {
 	ForceCollectComplianceInformation bool      `json:"force_collect_compliance_information"` // Require the recipient to fill out compliance information (i.e. form 1099) when below the payout limit.
 }
 
+// InputDirectPayoutParams create direct payout input
+type InputDirectPayoutParams struct {
+	PayoutType     string `json:"payout_type"`     // enum 'paypal', 'venmo', 'visa', 'amazon'
+	DeliveryMethod string `json:"delivery_method"` // phone number for venmo and email address for all other types
+	International  bool   `json:"international"`   // set to true if international
+}
+
 // CreatePayoutResponse create payout response
 type CreatePayoutResponse struct {
 	Success   bool `json:"success"`
@@ -45,6 +52,12 @@ type CreatePayoutResponse struct {
 type CreatePayoutLinkResponse struct {
 	Success    bool        `json:"success"`
 	PayoutLink *PayoutLink `json:"payout_link"`
+}
+
+// DirectPayoutResponse create direct payout response object
+type DirectPayoutResponse struct {
+	Success bool   `json:"success"`
+	Message string `json:"message"`
 }
 
 // CreatePayout create new payout
@@ -81,7 +94,7 @@ func (api *API) CreatePayoutLink(ctx context.Context, in *InputCreatePayoutLinkP
 	return &pl, nil
 }
 
-// SendPayout
+// SendPayout send a payout
 func (api *API) SendPayout(ctx context.Context, in *InputSendPayoutParams) ([]byte, error) {
 
 	r := api.h + "/api/v2/payouts/send_payout"
@@ -93,6 +106,19 @@ func (api *API) SendPayout(ctx context.Context, in *InputSendPayoutParams) ([]by
 	return b, nil
 }
 
-// CreateDirectPayout
-// TODO:
-// add direct payout api call
+// CreateDirectPayout creata direct payout
+func (api *API) CreateDirectPayout(ctx context.Context, in *InputDirectPayoutParams) (*DirectPayoutResponse, error) {
+
+	r := api.h + "/api/payouts/create_direct_payout"
+	b, e := api.cl.post(ctx, r, in)
+	if e != nil {
+		return nil, e
+	}
+
+	var p DirectPayoutResponse
+	if e := json.Unmarshal(b, &p); e != nil {
+		return nil, fmt.Errorf("dots api create direct payout json.Unmarshal err %v html response %s", e, string(b))
+	}
+
+	return &p, nil
+}
